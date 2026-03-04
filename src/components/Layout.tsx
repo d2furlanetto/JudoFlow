@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
-import { Home, Calendar, User, CreditCard, Award, ChevronRight } from 'lucide-react';
+import { Home, Calendar, User, CreditCard, Award, ChevronRight, Shield } from 'lucide-react';
 import { useAuth } from '../firebase/AuthContext';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
@@ -18,6 +18,10 @@ export const Layout: React.FC = () => {
     { icon: Award, label: 'Competições', path: '/championships' },
     { icon: User, label: 'Perfil', path: '/profile' },
   ];
+
+  if (profile?.role === 'admin') {
+    navItems.splice(3, 0, { icon: Shield, label: 'Admin', path: '/admin' });
+  }
 
   // If professor or admin, maybe add more or change labels
   if (profile?.role === 'admin' || profile?.role === 'professor') {

@@ -9,6 +9,7 @@ import { Classes } from './pages/Classes';
 import { Profile } from './pages/Profile';
 import { Finance } from './pages/Finance';
 import { Championships } from './pages/Championships';
+import { AdminDashboard } from './pages/Admin';
 import { AlertTriangle, ExternalLink } from 'lucide-react';
 
 const SetupScreen: React.FC = () => (
@@ -83,6 +84,7 @@ export default function App() {
             <Route path="profile" element={<Profile />} />
             <Route path="finance" element={<Finance />} />
             <Route path="championships" element={<Championships />} />
+            <Route path="admin" element={<AdminDashboard />} />
           </Route>
 
           <Route path="*" element={<Navigate to="/" />} />
