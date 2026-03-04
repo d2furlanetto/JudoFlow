@@ -1,11 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail } from 'firebase/auth';
 import { auth, db } from '../firebase/config';
 import { doc, setDoc } from 'firebase/firestore';
 import { motion } from 'motion/react';
 import { UserProfile } from '../types';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../firebase/AuthContext';
 
 export const Login: React.FC = () => {
+  const { user, loading: authLoading } = useAuth();
+  const navigate = useNavigate();
   const [isRegister, setIsRegister] = useState(false);
   const [isReset, setIsReset] = useState(false);
   const [email, setEmail] = useState('');
@@ -14,6 +18,12 @@ export const Login: React.FC = () => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
+
+  useEffect(() => {
+    if (user && !authLoading) {
+      navigate('/');
+    }
+  }, [user, authLoading, navigate]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -42,6 +52,7 @@ export const Login: React.FC = () => {
       } else {
         await signInWithEmailAndPassword(auth, email, password);
       }
+      navigate('/');
     } catch (err: any) {
       setError(err.message);
     } finally {
